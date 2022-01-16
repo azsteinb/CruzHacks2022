@@ -41,25 +41,27 @@
         const fileLabel = document.querySelector('.file-name');
         fileLabel.textContent = file.name;
     }
+    const getNumber = (num) => {
+        return num;
+    }
     const handleFile = () => {
         document.querySelector('#content').classList.add('is-hidden');
         document.querySelector('#table-container').classList.remove('is-hidden');
-        const data = [['80050', 'General health panel', '$201'], 
-                        ['84439', 'Thyroxine (thyroid chemical), free', '$55'], 
-                        ['83206', 'Vitamin D-3 Level', '$207'], 
-                        ['80061', 'Blood Test, Lipids (cholesterol and triglycerides)', '$80'], 
-                        ['99396', 'Established patient periodic preventive medicine examination (40-64 years)', '$455']
+        const data = [['80050', 'General health panel', '$201', '0'], 
+                        ['84439', 'Thyroxine (thyroid chemical), free', '$55', '0'], 
+                        ['83206', 'Vitamin D-3 Level', '$207', 0], 
+                        ['80061', 'Blood Test, Lipids (cholesterol and triglycerides)', '$80', getNumber(0)], 
+                        ['99396', 'Established patient periodic preventive medicine examination (40-64 years)', '$455', getNumber(5)]
                     ];
         console.log(data);
-        //Parse PDF grabbing file with getFile()
-        // data = parse PDF Info
+        //Parse PDF grabbing file with getFile() to get data
         generateTableRows(data);
     }
     function generateTableRows(data) {
         const tableBody = document.querySelector('#tableBody');
         data.forEach((item) => {
             const row = document.createElement('tr');
-            for(let i = 0; i < 3; i++){
+            for(let i = 0; i < 4; i++){
                 const cell = document.createElement('td');
                 cell.textContent = item[i];
                 row.append(cell);
