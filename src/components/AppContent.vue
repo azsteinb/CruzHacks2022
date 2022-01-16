@@ -138,6 +138,7 @@
         for (var f in dict){
             // We want to push an array of size 4 for every code we got
             var a = await getAvgCost(f);
+            console.log(f)
             data.push([f, await getDescription(f), '$' + dict[f], '$' + a]);
             averageCost += parseFloat(a);
             actualCost += parseFloat(dict[f]);
