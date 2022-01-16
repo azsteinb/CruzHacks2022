@@ -6,6 +6,7 @@
                     <th>CPT Code</th>
                     <th>Service</th>
                     <th>Charge</th>
+                    <th>Average Cost</th>
                     <th>Recieved</th>
                 </tr>
             </thead>
