@@ -73,7 +73,7 @@
             );
         });
     }
-    function getDict(encodedPDF){
+    async function getDict(encodedPDF){
         let url = "https://us-central1-cruzhacks2022-338309.cloudfunctions.net/parsePDF";
         return new Promise(function (resolve, reject) {
             axios.post(url, { "pdf-data": encodedPDF }).then(response => {
@@ -86,6 +86,17 @@
         });
     }
 
+    async function readPDF(file){
+        return new Promise(function (resolve) {
+            var reader = new FileReader();
+            reader.onload=function(){
+                var res = btoa(reader.result); // base 64
+                resolve(res);
+            };
+            reader.readAsBinaryString(file);
+        })
+    }
+
     async function fileButtonPress(){
         document.querySelector('#content').classList.add('is-hidden');
         // show loading screen
@@ -94,26 +105,25 @@
         // We need to get the file that the user inputted
         console.log(getFile())
 
-        var reader = new FileReader();
-        //var codePrices = {}
-        let res = null;
-        reader.onload=function(){
-            res = btoa(reader.result);
-            //console.log(res);
-            //console.log(await getDict2(res));
-            console.log(getDict(res));
-        }
-        
-        reader.readAsBinaryString(getFile());
-
+        var result = await readPDF(getFile());
+        console.log(result);
         //console.log(await getDict2(res));
+        var dict = await getDict(result);
+        console.log(dict);
+        var data = [];
+        for (var f in dict){
+            // We want to push an array of size 4 for every code we got
+            data.push([f, await getDescription(f), dict[f], getNumber(10)]);
+        }
 
-        const data = [['80050', await getDescription('84439'), '$201', '0'], 
-                        ['84439', await getDescription('84439'), '$55', '0'], 
-                        ['83206', await getDescription('84439'), '$207', 0], 
-                        ['80061', await getDescription('84439'), '$80', getNumber(0)], 
-                        ['99396', await getDescription('84439'), '$455', getNumber(5)]
-                    ];
+        // const data1 = [['80050', await getDescription('84439'), '$201', '0'], 
+        //                 ['84439', await getDescription('84439'), '$55', '0'], 
+        //                 ['83206', await getDescription('84439'), '$207', 0], 
+        //                 ['80061', await getDescription('84439'), '$80', getNumber(0)], 
+        //                 ['99396', await getDescription('84439'), '$455', getNumber(5)]
+        //             ];
+        
+
         generateTableRows(data);
         
         document.querySelector('#table-container').classList.remove('is-hidden');
