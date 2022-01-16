@@ -1,9 +1,17 @@
 <template>
     <div id="content" class="columns is-mobile is-vcentered" style="min-height: 80vh;">
-        <div class="column is-third">
-            <img src="../assets/savings.svg" style="position: absolute; bottom: 3.2rem; z-index: -1; left: 0;">
+        <h1 class = "title is-1" style = "position: absolute; text-align: center; margin-left: 5%; margin-top: -20%; max-width: 30%">
+            Negotiate your medical bills with transparent pricing data.</h1>
+            <h1 class = "subtitle is-3" style ="position: absolute; text-align: center; margin-left: 50%; margin-top: 30%; max-width: 30%">
+                You do not need to be a medical expert to understand your bill.
+            </h1>
+        <div class="column">
+            <img src="../assets/undraw_doctor_kw-5-l.svg" style="position: absolute; bottom: -12rem; left: -20rem; z-index: -1; scale: 40%">
         </div>
         <div class="column">
+            <img src="../assets/undraw_receipt_re_fre3.svg" style="position: absolute; bottom: 0rem; right: -5rem; z-index: -1; scale: 80%">
+        </div>
+        <div class = "columns is-hcentered" style="width: 58%">
         <!-- File Upload -->
             <div id='file-select' class="levels mt-4">
                 <div class="file has-name is-boxed mb-2 level-item">
@@ -22,7 +30,7 @@
                         </span>
                     </label>
                 </div>
-                <button id='file-submit' class="button is-primary ml-2" v-on:click="fileButtonPress()">Analyze Medical Bill</button>
+                <button id='file-submit' class="button is-primary is-large ml-2" disabled = "true" v-on:click="fileButtonPress()">Analyze Medical Bill</button>
             </div>
         </div>
     </div>
@@ -41,6 +49,7 @@
         const file = getFile();
         const fileLabel = document.querySelector('.file-name');
         fileLabel.textContent = file.name;
+        document.getElementById('file-submit').disabled = false;
     }
     /* const handleFile = () => {
         document.querySelector('#content').classList.add('is-hidden');
