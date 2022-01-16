@@ -29,7 +29,7 @@ def parsePDF(request):
     
     # secret key for api, and format we want the returned file in
     params = (
-    ('key', 'uxr7dt4hqwrb'),
+    ('key', 'uxr7dt4hqwrb'), # invalid api key <----
     ('format', 'csv'),
     )
     # our data we send the api
