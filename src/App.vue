@@ -15,6 +15,11 @@ export default {
     AppHeader,
     AppContent,
     AppFooter,
+  },
+  data(){
+    return {
+      TOTAL_SAVINGS : '$0', TOTAL_LOSS : '$0'
+    }
   }
 }
 </script>

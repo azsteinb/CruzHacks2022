@@ -14,7 +14,7 @@
                             <i class="fas fa-upload"></i>
                         </span>
                         <span class="file-label">
-                            Choose your bill...
+                            Upload Medical Bill
                         </span>
                         </span>
                         <span class="file-name">
@@ -22,7 +22,7 @@
                         </span>
                     </label>
                 </div>
-                <button id='file-submit' class="button is-primary ml-2" v-on:click="fileButtonPress()">Cick Me To Discover Your Savings!</button>
+                <button id='file-submit' class="button is-primary ml-2" v-on:click="fileButtonPress()">Analyze Medical Bill</button>
             </div>
         </div>
     </div>
@@ -41,9 +41,6 @@
         const file = getFile();
         const fileLabel = document.querySelector('.file-name');
         fileLabel.textContent = file.name;
-    }
-    const getNumber = (num) => {
-        return num;
     }
     /* const handleFile = () => {
         document.querySelector('#content').classList.add('is-hidden');
@@ -97,8 +94,24 @@
         })
     }
 
+    async function getAvgCost(code){
+        let url = "https://us-central1-cruzhacks2022-338309.cloudfunctions.net/get_price?code=" + code;
+        return new Promise(function (resolve, reject) {
+            axios.get(url).then(
+                (response) => {
+                    var result = response.data;
+                    resolve(result);
+                },
+                    (error) => {
+                    reject(error);
+                }
+            );
+        });
+    }
+
     async function fileButtonPress(){
         document.querySelector('#content').classList.add('is-hidden');
+        document.querySelector('#loading-bar').classList.remove('is-hidden');
         // show loading screen
 
         // We need to parse the pdf
@@ -111,22 +124,27 @@
         var dict = await getDict(result);
         console.log(dict);
         var data = [];
+        var actualCost = 0.0;
+        var averageCost = 0.0;
         for (var f in dict){
             // We want to push an array of size 4 for every code we got
-            data.push([f, await getDescription(f), dict[f], getNumber(10)]);
+            var a = await getAvgCost(f);
+            data.push([f, await getDescription(f), '$' + dict[f], '$' + a]);
+            averageCost += parseFloat(a);
+            actualCost += parseFloat(dict[f]);
         }
-
-        // const data1 = [['80050', await getDescription('84439'), '$201', '0'], 
-        //                 ['84439', await getDescription('84439'), '$55', '0'], 
-        //                 ['83206', await getDescription('84439'), '$207', 0], 
-        //                 ['80061', await getDescription('84439'), '$80', getNumber(0)], 
-        //                 ['99396', await getDescription('84439'), '$455', getNumber(5)]
-        //             ];
-        
+        console.log(averageCost);
+        console.log(actualCost);
 
         generateTableRows(data);
-        
+        document.querySelector('#loading-bar').classList.add('is-hidden');
         document.querySelector('#table-container').classList.remove('is-hidden');
+        if(averageCost > actualCost){
+            document.querySelector('#saved-value').classList.remove('is-hidden');
+        }
+        else{
+            document.querySelector('#lost-value').classList.remove('is-hidden');
+        }
     }
 
     function generateTableRows(data) {
@@ -139,11 +157,7 @@
                 cell.textContent = item[i];
                 row.append(cell);
             }
-            /* Add Checkbox */
-            const input = document.createElement('input');
-            input.setAttribute('type', 'checkbox');
-            input.classList.add('checkbox');
-            row.append(input);
+            
             tableBody.append(row);
         });
     }
