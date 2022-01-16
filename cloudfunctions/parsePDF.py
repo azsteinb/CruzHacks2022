@@ -3,11 +3,23 @@ import pdftables_api
 import functions_framework
 import requests
 import base64
+import json
 
 url = "https://pdftables.com/api"
 
 @functions_framework.http
 def parsePDF(request):
+    if request.method == 'OPTIONS':
+        headers = {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'GET',
+            'Access-Control-Allow-Headers': 'Content-Type',
+            'Access-Control-Max-Age': '3600',
+        }
+        return ('', 204, headers)
+    headers = {
+        'Access-Control-Allow-Origin': '*',
+    }
     json_data = request.get_json()
     if request.args and 'pdf-data' in request.args:
         pdfdata = base64.b64decode(request.args.get('pdf-data'))
@@ -17,7 +29,7 @@ def parsePDF(request):
     
     # secret key for api, and format we want the returned file in
     params = (
-    ('key', 'API KEY'),
+    ('key', 'uxr7dt4hqwrb'),
     ('format', 'csv'),
     )
     # our data we send the api
@@ -44,5 +56,4 @@ def parsePDF(request):
         price = t[1] # The price is what is left
         codePrice[code] = price
     # return response.text
-    return str(codePrice) # return a string representation of the dictionary
-
+    return (json.dumps(codePrice), 200, headers) # return a string representation of the dictionary
