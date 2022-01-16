@@ -51,6 +51,8 @@
                         ['99396', 'Established patient periodic preventive medicine examination (40-64 years)', '$455']
                     ];
         console.log(data);
+        //Parse PDF grabbing file with getFile()
+        // data = parse PDF Info
         generateTableRows(data);
     }
     function generateTableRows(data) {
