@@ -1,24 +1,10 @@
-# vue-starter-project
+# MediBill
 
-## Project setup
-```
-npm install
-```
+Created by Aaron Steinberg, Ezra Moussa, Daryoush Ghoreishi, and Jake Warsaw
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## MediBill was a CruzHacks2022 submission. Full project can be viewed here: https://devpost.com/software/health-hacker-7soucr
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+# Prizes Won:
++ Best UI/UX
++ Sponsor – QB3 @ UCSC
++ MLH – Best Use of Google Cloud 
